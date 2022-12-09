@@ -146,4 +146,16 @@ class Heap2(HeapMixin):
     def _fix_down(cls, x: list[Ord], i: int) -> None:
         """Move the value at x[i] down to its correct location."""
         # FIXME: implement this strategy
-        ...
+        while i < len(x):
+            child = _min_child(x, i)
+            if child is None:
+                break
+            x[i], x[child] = x[child], x[i]
+            i = child
+
+        cls._fix_up(x, i)
+
+# we use cls as an object
+# it is likely the node we want to fix will end in the bottom of the heap 
+# bc the number of nodes grows exponentially going down the levels
+# so fixing all the way down first can be efficient
